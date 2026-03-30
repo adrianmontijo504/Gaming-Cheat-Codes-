@@ -184,8 +184,8 @@ code,
 }
 
 .sidebar {
-  position: sticky;
-  top: 18px;
+  position: relative;
+  top: auto;
   align-self: start;
 }
 
@@ -205,9 +205,9 @@ code,
 input[type="search"],
 select {
   width: 100%;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text);
+  border: 1px solid rgba(171, 188, 255, 0.28);
+  background: #11182f;
+  color: #eef2ff;
   border-radius: 12px;
   padding: 12px 14px;
   font-size: 0.98rem;
@@ -216,6 +216,28 @@ select {
 
 input[type="search"]::placeholder {
   color: #8e9ab8;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%23eef2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px;
+}
+
+select option {
+  background: #11182f;
+  color: #eef2ff;
+}
+
+input[type="search"]:focus,
+select:focus {
+  border-color: #7ea6ff;
+  box-shadow: 0 0 0 3px rgba(126, 166, 255, 0.18);
 }
 
 .check {
@@ -416,7 +438,8 @@ input[type="search"]::placeholder {
   }
 
   .sidebar {
-    position: static;
+    position: relative;
+    top: auto;
   }
 }
 
