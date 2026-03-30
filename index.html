@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Cheat Lookup | Sims 4 PS5</title>
+  <meta name="description" content="Search Sims 4 cheat codes for PlayStation 5. Filter by money, skills, careers, build mode, relationships, DLC, and more." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="eyebrow">Starter cheat-code database</div>
+      <h1>Game Cheat Lookup</h1>
+      <p class="hero__copy">
+        Searchable cheat-code site starting with <strong>The Sims 4 on PlayStation 5</strong>.
+        Built so you can add more games later without changing the layout.
+      </p>
+
+      <div class="hero__meta">
+        <div class="meta-card">
+          <span class="meta-label">Game</span>
+          <span class="meta-value">The Sims 4</span>
+        </div>
+        <div class="meta-card">
+          <span class="meta-label">Platform</span>
+          <span class="meta-value">PS5</span>
+        </div>
+        <div class="meta-card">
+          <span class="meta-label">Cheats loaded</span>
+          <span class="meta-value" id="totalCount">0</span>
+        </div>
+      </div>
+
+      <div class="quick-start">
+        <h2>PS5 cheat setup</h2>
+        <ol>
+          <li>Open your save.</li>
+          <li>Press <code>L1 + L2 + R1 + R2</code> together.</li>
+          <li>Type <code>testingcheats on</code> and press <code>O</code>.</li>
+          <li>Enter any cheat below and press <code>O</code> again.</li>
+        </ol>
+        <p class="warning">
+          Warning: enabling <code>testingcheats</code> disables trophies/achievements for that save.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <label class="label" for="searchInput">Search cheats</label>
+        <input id="searchInput" type="search" placeholder="Search code, effect, category, DLC..." />
+      </section>
+
+      <section class="panel">
+        <label class="label" for="categoryFilter">Category</label>
+        <select id="categoryFilter">
+          <option value="all">All categories</option>
+        </select>
+      </section>
+
+      <section class="panel">
+        <label class="label" for="dlcFilter">Pack / DLC</label>
+        <select id="dlcFilter">
+          <option value="all">All packs</option>
+        </select>
+      </section>
+
+      <section class="panel">
+        <span class="label">Show only</span>
+        <label class="check">
+          <input type="checkbox" id="testingOnly" />
+          Cheats that require testingcheats on
+        </label>
+        <label class="check">
+          <input type="checkbox" id="officialOnly" />
+          Officially documented setup info
+        </label>
+      </section>
+
+      <section class="panel sources">
+        <h3>Source notes</h3>
+        <p>
+          This starter database prioritizes PS5/PlayStation-compatible cheats. It separates
+          <strong>official setup guidance</strong> from <strong>community-curated cheat entries</strong>.
+        </p>
+        <ul>
+          <li>Official setup: EA Help / PlayStation console instructions</li>
+          <li>Broader cheat coverage: curated gaming guides and long-running Sims references</li>
+          <li>Mod-only or clearly PC-only items were intentionally excluded from the main list</li>
+        </ul>
+      </section>
+    </aside>
+
+    <section class="content">
+      <div class="toolbar">
+        <div>
+          <h2>Cheat results</h2>
+          <p id="resultSummary">Loading…</p>
+        </div>
+        <button id="clearBtn" class="ghost-btn" type="button">Clear filters</button>
+      </div>
+
+      <div id="activeFilters" class="active-filters"></div>
+      <div id="results" class="results" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <template id="cardTemplate">
+    <article class="card">
+      <div class="card__top">
+        <div>
+          <div class="tags">
+            <span class="tag tag--category"></span>
+            <span class="tag tag--dlc"></span>
+            <span class="tag tag--verify"></span>
+            <span class="tag tag--testing hidden">Needs testingcheats</span>
+          </div>
+          <h3 class="card__title"></h3>
+        </div>
+        <button class="copy-btn" type="button">Copy code</button>
+      </div>
+
+      <div class="code-block"></div>
+      <p class="effect"></p>
+      <p class="notes"></p>
+    </article>
+  </template>
+
+  <script src="cheats-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
