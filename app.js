@@ -88,7 +88,9 @@ function uniqueSectionValues(items) {
 }
 
 function uniqueDlcValues(items) {
-  return [...new Set(items.map(item => item.dlc).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  return [...new Set(items.map(item => item.dlc).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b)
+  );
 }
 
 function populateSelect(select, values) {
@@ -253,7 +255,8 @@ function renderResults() {
   if (!items.length) {
     const empty = document.createElement("div");
     empty.className = "empty-state";
-    empty.innerHTML = "<strong>No cheats matched.</strong><br>Try a broader search, another section, or clear the filters.";
+    empty.innerHTML =
+      "<strong>No cheats matched.</strong><br>Try a broader search, another section, or clear the filters.";
     els.results.appendChild(empty);
     return;
   }
