@@ -125,6 +125,40 @@ h1 {
   margin-bottom: 12px;
 }
 
+.quick-steps {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.quick-step {
+  color: var(--muted);
+  line-height: 1.65;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+}
+
+.ps-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-inline: 4px;
+  border-radius: 999px;
+  border: 2px solid #5db4ff;
+  color: #5db4ff;
+  background: rgba(93, 180, 255, 0.12);
+  box-shadow: 0 0 0 2px rgba(93, 180, 255, 0.08), 0 0 18px rgba(93, 180, 255, 0.18);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+  vertical-align: middle;
+}
+
 .quick-start ol {
   margin: 0 0 12px 18px;
   color: var(--muted);
