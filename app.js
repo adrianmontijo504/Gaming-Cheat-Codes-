@@ -20,11 +20,48 @@ const els = {
   cardTemplate: document.getElementById('cardTemplate')
 };
 
+function showFatalError(message) {
+  if (els.resultSummary) {
+    els.resultSummary.textContent = 'Error loading cheats';
+  }
+
+  if (els.results) {
+    els.results.innerHTML = `
+      <div class="empty-state">
+        <strong>Site error:</strong><br>
+        ${message}
+      </div>
+    `;
+  }
+
+  if (els.totalCount) {
+    els.totalCount.textContent = '0';
+  }
+}
+
+function getCheatData() {
+  if (typeof window.CHEAT_DATA === 'undefined') {
+    showFatalError('Could not load cheats-data.js. Make sure cheats-data.js is in the same folder as index.html and app.js.');
+    return [];
+  }
+
+  if (!Array.isArray(window.CHEAT_DATA)) {
+    showFatalError('CHEAT_DATA was found, but it is not a valid array.');
+    return [];
+  }
+
+  return window.CHEAT_DATA;
+}
+
+const CHEATS = getCheatData();
+
 function uniqueValues(items, key) {
   return [...new Set(items.map(item => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
 
 function populateSelect(select, values) {
+  if (!select) return;
+
   values.forEach(value => {
     const option = document.createElement('option');
     option.value = value;
@@ -39,6 +76,7 @@ function formatVerification(value) {
 
 function matchesSearch(item, search) {
   if (!search) return true;
+
   const haystack = [
     item.name,
     item.code,
@@ -47,14 +85,17 @@ function matchesSearch(item, search) {
     item.dlc,
     item.notes,
     item.verification
-  ].join(' ').toLowerCase();
+  ]
+    .join(' ')
+    .toLowerCase();
+
   return haystack.includes(search);
 }
 
 function filteredData() {
   const search = state.search.trim().toLowerCase();
 
-  return CHEAT_DATA.filter(item => {
+  return CHEATS.filter(item => {
     if (!matchesSearch(item, search)) return false;
     if (state.category !== 'all' && item.category !== state.category) return false;
     if (state.dlc !== 'all' && item.dlc !== state.dlc) return false;
@@ -65,6 +106,8 @@ function filteredData() {
 }
 
 function renderActiveFilters() {
+  if (!els.activeFilters) return;
+
   const chips = [];
   if (state.search) chips.push(`Search: ${state.search}`);
   if (state.category !== 'all') chips.push(`Category: ${state.category}`);
@@ -73,6 +116,7 @@ function renderActiveFilters() {
   if (state.officialOnly) chips.push('Official only');
 
   els.activeFilters.innerHTML = '';
+
   chips.forEach(text => {
     const chip = document.createElement('span');
     chip.className = 'active-filter-chip';
@@ -91,6 +135,7 @@ function createCard(item) {
   node.querySelector('.code-block').textContent = item.code;
   node.querySelector('.effect').textContent = item.effect;
   node.querySelector('.notes').textContent = item.notes || '';
+
   if (item.needsTestingCheats) {
     node.querySelector('.tag--testing').classList.remove('hidden');
   }
@@ -101,11 +146,13 @@ function createCard(item) {
       await navigator.clipboard.writeText(item.code);
       const original = copyBtn.textContent;
       copyBtn.textContent = 'Copied';
+
       setTimeout(() => {
         copyBtn.textContent = original;
       }, 1000);
-    } catch {
+    } catch (error) {
       copyBtn.textContent = 'Copy failed';
+
       setTimeout(() => {
         copyBtn.textContent = 'Copy code';
       }, 1200);
@@ -116,9 +163,12 @@ function createCard(item) {
 }
 
 function renderResults() {
+  if (!els.results || !els.resultSummary || !els.totalCount) return;
+
   const items = filteredData();
+
   els.results.innerHTML = '';
-  els.totalCount.textContent = String(CHEAT_DATA.length);
+  els.totalCount.textContent = String(CHEATS.length);
   els.resultSummary.textContent = `${items.length} result${items.length === 1 ? '' : 's'} shown`;
 
   renderActiveFilters();
@@ -143,45 +193,59 @@ function clearFilters() {
   state.testingOnly = false;
   state.officialOnly = false;
 
-  els.searchInput.value = '';
-  els.categoryFilter.value = 'all';
-  els.dlcFilter.value = 'all';
-  els.testingOnly.checked = false;
-  els.officialOnly.checked = false;
+  if (els.searchInput) els.searchInput.value = '';
+  if (els.categoryFilter) els.categoryFilter.value = 'all';
+  if (els.dlcFilter) els.dlcFilter.value = 'all';
+  if (els.testingOnly) els.testingOnly.checked = false;
+  if (els.officialOnly) els.officialOnly.checked = false;
 
   renderResults();
 }
 
 function init() {
-  populateSelect(els.categoryFilter, uniqueValues(CHEAT_DATA, 'category'));
-  populateSelect(els.dlcFilter, uniqueValues(CHEAT_DATA, 'dlc'));
+  if (!CHEATS.length) return;
 
-  els.searchInput.addEventListener('input', (event) => {
-    state.search = event.target.value;
-    renderResults();
-  });
+  populateSelect(els.categoryFilter, uniqueValues(CHEATS, 'category'));
+  populateSelect(els.dlcFilter, uniqueValues(CHEATS, 'dlc'));
 
-  els.categoryFilter.addEventListener('change', (event) => {
-    state.category = event.target.value;
-    renderResults();
-  });
+  if (els.searchInput) {
+    els.searchInput.addEventListener('input', event => {
+      state.search = event.target.value;
+      renderResults();
+    });
+  }
 
-  els.dlcFilter.addEventListener('change', (event) => {
-    state.dlc = event.target.value;
-    renderResults();
-  });
+  if (els.categoryFilter) {
+    els.categoryFilter.addEventListener('change', event => {
+      state.category = event.target.value;
+      renderResults();
+    });
+  }
 
-  els.testingOnly.addEventListener('change', (event) => {
-    state.testingOnly = event.target.checked;
-    renderResults();
-  });
+  if (els.dlcFilter) {
+    els.dlcFilter.addEventListener('change', event => {
+      state.dlc = event.target.value;
+      renderResults();
+    });
+  }
 
-  els.officialOnly.addEventListener('change', (event) => {
-    state.officialOnly = event.target.checked;
-    renderResults();
-  });
+  if (els.testingOnly) {
+    els.testingOnly.addEventListener('change', event => {
+      state.testingOnly = event.target.checked;
+      renderResults();
+    });
+  }
 
-  els.clearBtn.addEventListener('click', clearFilters);
+  if (els.officialOnly) {
+    els.officialOnly.addEventListener('change', event => {
+      state.officialOnly = event.target.checked;
+      renderResults();
+    });
+  }
+
+  if (els.clearBtn) {
+    els.clearBtn.addEventListener('click', clearFilters);
+  }
 
   renderResults();
 }
