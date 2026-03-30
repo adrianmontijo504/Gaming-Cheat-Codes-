@@ -1,28 +1,41 @@
 const state = {
-  search: '',
-  category: 'all',
-  dlc: 'all',
+  search: "",
+  category: "all",
+  dlc: "all",
   testingOnly: false,
   officialOnly: false
 };
 
 const els = {
-  totalCount: document.getElementById('totalCount'),
-  resultSummary: document.getElementById('resultSummary'),
-  results: document.getElementById('results'),
-  activeFilters: document.getElementById('activeFilters'),
-  searchInput: document.getElementById('searchInput'),
-  categoryFilter: document.getElementById('categoryFilter'),
-  dlcFilter: document.getElementById('dlcFilter'),
-  testingOnly: document.getElementById('testingOnly'),
-  officialOnly: document.getElementById('officialOnly'),
-  clearBtn: document.getElementById('clearBtn'),
-  cardTemplate: document.getElementById('cardTemplate')
+  totalCount: document.getElementById("totalCount"),
+  resultSummary: document.getElementById("resultSummary"),
+  results: document.getElementById("results"),
+  activeFilters: document.getElementById("activeFilters"),
+  searchInput: document.getElementById("searchInput"),
+  categoryFilter: document.getElementById("categoryFilter"),
+  dlcFilter: document.getElementById("dlcFilter"),
+  testingOnly: document.getElementById("testingOnly"),
+  officialOnly: document.getElementById("officialOnly"),
+  clearBtn: document.getElementById("clearBtn"),
+  cardTemplate: document.getElementById("cardTemplate")
 };
+
+const SECTION_ORDER = [
+  "Getting Started",
+  "Money",
+  "Careers",
+  "Lifestyle",
+  "Aspirations",
+  "Build / Buy",
+  "Skills",
+  "Relationships",
+  "Occults",
+  "Other"
+];
 
 function showFatalError(message) {
   if (els.resultSummary) {
-    els.resultSummary.textContent = 'Error loading cheats';
+    els.resultSummary.textContent = "Error loading cheats";
   }
 
   if (els.results) {
@@ -35,18 +48,18 @@ function showFatalError(message) {
   }
 
   if (els.totalCount) {
-    els.totalCount.textContent = '0';
+    els.totalCount.textContent = "0";
   }
 }
 
 function getCheatData() {
-  if (typeof window.CHEAT_DATA === 'undefined') {
-    showFatalError('Could not load cheats-data.js. Make sure cheats-data.js is in the same folder as index.html and app.js.');
+  if (typeof window.CHEAT_DATA === "undefined") {
+    showFatalError("Could not load cheats-data.js. Make sure cheats-data.js is in the same folder as index.html and app.js.");
     return [];
   }
 
   if (!Array.isArray(window.CHEAT_DATA)) {
-    showFatalError('CHEAT_DATA was found, but it is not a valid array.');
+    showFatalError("CHEAT_DATA was found, but it is not a valid array.");
     return [];
   }
 
@@ -55,15 +68,34 @@ function getCheatData() {
 
 const CHEATS = getCheatData();
 
-function uniqueValues(items, key) {
-  return [...new Set(items.map(item => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+function getSection(item) {
+  const category = item.category || "Other";
+  if (SECTION_ORDER.includes(category)) return category;
+  return "Other";
+}
+
+function uniqueSectionValues(items) {
+  const values = [...new Set(items.map(getSection).filter(Boolean))];
+  return values.sort((a, b) => {
+    const aIndex = SECTION_ORDER.indexOf(a);
+    const bIndex = SECTION_ORDER.indexOf(b);
+
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    return a.localeCompare(b);
+  });
+}
+
+function uniqueDlcValues(items) {
+  return [...new Set(items.map(item => item.dlc).filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
 
 function populateSelect(select, values) {
   if (!select) return;
 
   values.forEach(value => {
-    const option = document.createElement('option');
+    const option = document.createElement("option");
     option.value = value;
     option.textContent = value;
     select.appendChild(option);
@@ -71,7 +103,7 @@ function populateSelect(select, values) {
 }
 
 function formatVerification(value) {
-  return value === 'official' ? 'Official setup' : 'Community-curated';
+  return value === "official" ? "Official setup" : "Community-curated";
 }
 
 function matchesSearch(item, search) {
@@ -86,7 +118,7 @@ function matchesSearch(item, search) {
     item.notes,
     item.verification
   ]
-    .join(' ')
+    .join(" ")
     .toLowerCase();
 
   return haystack.includes(search);
@@ -97,10 +129,10 @@ function filteredData() {
 
   return CHEATS.filter(item => {
     if (!matchesSearch(item, search)) return false;
-    if (state.category !== 'all' && item.category !== state.category) return false;
-    if (state.dlc !== 'all' && item.dlc !== state.dlc) return false;
+    if (state.category !== "all" && getSection(item) !== state.category) return false;
+    if (state.dlc !== "all" && item.dlc !== state.dlc) return false;
     if (state.testingOnly && !item.needsTestingCheats) return false;
-    if (state.officialOnly && item.verification !== 'official') return false;
+    if (state.officialOnly && item.verification !== "official") return false;
     return true;
   });
 }
@@ -110,16 +142,16 @@ function renderActiveFilters() {
 
   const chips = [];
   if (state.search) chips.push(`Search: ${state.search}`);
-  if (state.category !== 'all') chips.push(`Category: ${state.category}`);
-  if (state.dlc !== 'all') chips.push(`Pack: ${state.dlc}`);
-  if (state.testingOnly) chips.push('Needs testingcheats');
-  if (state.officialOnly) chips.push('Official only');
+  if (state.category !== "all") chips.push(`Section: ${state.category}`);
+  if (state.dlc !== "all") chips.push(`Pack: ${state.dlc}`);
+  if (state.testingOnly) chips.push("Needs testingcheats");
+  if (state.officialOnly) chips.push("Official only");
 
-  els.activeFilters.innerHTML = '';
+  els.activeFilters.innerHTML = "";
 
   chips.forEach(text => {
-    const chip = document.createElement('span');
-    chip.className = 'active-filter-chip';
+    const chip = document.createElement("span");
+    chip.className = "active-filter-chip";
     chip.textContent = text;
     els.activeFilters.appendChild(chip);
   });
@@ -128,33 +160,33 @@ function renderActiveFilters() {
 function createCard(item) {
   const node = els.cardTemplate.content.firstElementChild.cloneNode(true);
 
-  node.querySelector('.tag--category').textContent = item.category;
-  node.querySelector('.tag--dlc').textContent = item.dlc;
-  node.querySelector('.tag--verify').textContent = formatVerification(item.verification);
-  node.querySelector('.card__title').textContent = item.name;
-  node.querySelector('.code-block').textContent = item.code;
-  node.querySelector('.effect').textContent = item.effect;
-  node.querySelector('.notes').textContent = item.notes || '';
+  node.querySelector(".tag--category").textContent = getSection(item);
+  node.querySelector(".tag--dlc").textContent = item.dlc;
+  node.querySelector(".tag--verify").textContent = formatVerification(item.verification);
+  node.querySelector(".card__title").textContent = item.name;
+  node.querySelector(".code-block").textContent = item.code;
+  node.querySelector(".effect").textContent = item.effect;
+  node.querySelector(".notes").textContent = item.notes || "";
 
   if (item.needsTestingCheats) {
-    node.querySelector('.tag--testing').classList.remove('hidden');
+    node.querySelector(".tag--testing").classList.remove("hidden");
   }
 
-  const copyBtn = node.querySelector('.copy-btn');
-  copyBtn.addEventListener('click', async () => {
+  const copyBtn = node.querySelector(".copy-btn");
+  copyBtn.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(item.code);
       const original = copyBtn.textContent;
-      copyBtn.textContent = 'Copied';
+      copyBtn.textContent = "Copied";
 
       setTimeout(() => {
         copyBtn.textContent = original;
       }, 1000);
     } catch (error) {
-      copyBtn.textContent = 'Copy failed';
+      copyBtn.textContent = "Copy failed";
 
       setTimeout(() => {
-        copyBtn.textContent = 'Copy code';
+        copyBtn.textContent = "Copy code";
       }, 1200);
     }
   });
@@ -162,40 +194,85 @@ function createCard(item) {
   return node;
 }
 
+function groupBySection(items) {
+  const grouped = {};
+
+  items.forEach(item => {
+    const section = getSection(item);
+    if (!grouped[section]) grouped[section] = [];
+    grouped[section].push(item);
+  });
+
+  return grouped;
+}
+
+function createSectionBlock(sectionName, items) {
+  const wrapper = document.createElement("section");
+  wrapper.className = "section-block";
+
+  const header = document.createElement("div");
+  header.className = "section-header";
+
+  const title = document.createElement("h3");
+  title.className = "section-title";
+  title.textContent = sectionName;
+
+  const count = document.createElement("span");
+  count.className = "section-count";
+  count.textContent = `${items.length} cheat${items.length === 1 ? "" : "s"}`;
+
+  header.appendChild(title);
+  header.appendChild(count);
+
+  const grid = document.createElement("div");
+  grid.className = "section-grid";
+
+  items.forEach(item => {
+    grid.appendChild(createCard(item));
+  });
+
+  wrapper.appendChild(header);
+  wrapper.appendChild(grid);
+
+  return wrapper;
+}
+
 function renderResults() {
   if (!els.results || !els.resultSummary || !els.totalCount) return;
 
   const items = filteredData();
+  const grouped = groupBySection(items);
+  const visibleSections = SECTION_ORDER.filter(section => grouped[section]?.length);
 
-  els.results.innerHTML = '';
+  els.results.innerHTML = "";
   els.totalCount.textContent = String(CHEATS.length);
-  els.resultSummary.textContent = `${items.length} result${items.length === 1 ? '' : 's'} shown`;
+  els.resultSummary.textContent = `${items.length} result${items.length === 1 ? "" : "s"} in ${visibleSections.length} section${visibleSections.length === 1 ? "" : "s"}`;
 
   renderActiveFilters();
 
   if (!items.length) {
-    const empty = document.createElement('div');
-    empty.className = 'empty-state';
-    empty.innerHTML = '<strong>No cheats matched.</strong><br>Try a broader search, another category, or clear the filters.';
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.innerHTML = "<strong>No cheats matched.</strong><br>Try a broader search, another section, or clear the filters.";
     els.results.appendChild(empty);
     return;
   }
 
-  items.forEach(item => {
-    els.results.appendChild(createCard(item));
+  visibleSections.forEach(section => {
+    els.results.appendChild(createSectionBlock(section, grouped[section]));
   });
 }
 
 function clearFilters() {
-  state.search = '';
-  state.category = 'all';
-  state.dlc = 'all';
+  state.search = "";
+  state.category = "all";
+  state.dlc = "all";
   state.testingOnly = false;
   state.officialOnly = false;
 
-  if (els.searchInput) els.searchInput.value = '';
-  if (els.categoryFilter) els.categoryFilter.value = 'all';
-  if (els.dlcFilter) els.dlcFilter.value = 'all';
+  if (els.searchInput) els.searchInput.value = "";
+  if (els.categoryFilter) els.categoryFilter.value = "all";
+  if (els.dlcFilter) els.dlcFilter.value = "all";
   if (els.testingOnly) els.testingOnly.checked = false;
   if (els.officialOnly) els.officialOnly.checked = false;
 
@@ -205,46 +282,46 @@ function clearFilters() {
 function init() {
   if (!CHEATS.length) return;
 
-  populateSelect(els.categoryFilter, uniqueValues(CHEATS, 'category'));
-  populateSelect(els.dlcFilter, uniqueValues(CHEATS, 'dlc'));
+  populateSelect(els.categoryFilter, uniqueSectionValues(CHEATS));
+  populateSelect(els.dlcFilter, uniqueDlcValues(CHEATS));
 
   if (els.searchInput) {
-    els.searchInput.addEventListener('input', event => {
+    els.searchInput.addEventListener("input", event => {
       state.search = event.target.value;
       renderResults();
     });
   }
 
   if (els.categoryFilter) {
-    els.categoryFilter.addEventListener('change', event => {
+    els.categoryFilter.addEventListener("change", event => {
       state.category = event.target.value;
       renderResults();
     });
   }
 
   if (els.dlcFilter) {
-    els.dlcFilter.addEventListener('change', event => {
+    els.dlcFilter.addEventListener("change", event => {
       state.dlc = event.target.value;
       renderResults();
     });
   }
 
   if (els.testingOnly) {
-    els.testingOnly.addEventListener('change', event => {
+    els.testingOnly.addEventListener("change", event => {
       state.testingOnly = event.target.checked;
       renderResults();
     });
   }
 
   if (els.officialOnly) {
-    els.officialOnly.addEventListener('change', event => {
+    els.officialOnly.addEventListener("change", event => {
       state.officialOnly = event.target.checked;
       renderResults();
     });
   }
 
   if (els.clearBtn) {
-    els.clearBtn.addEventListener('click', clearFilters);
+    els.clearBtn.addEventListener("click", clearFilters);
   }
 
   renderResults();
