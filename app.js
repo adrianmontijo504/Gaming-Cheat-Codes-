@@ -1,333 +1,133 @@
-const state = {
-  search: "",
-  category: "all",
-  dlc: "all",
-  testingOnly: false,
-  officialOnly: false
-};
+const pageType = document.documentElement.dataset.page || "";
 
-const els = {
-  totalCount: document.getElementById("totalCount"),
-  resultSummary: document.getElementById("resultSummary"),
-  results: document.getElementById("results"),
-  activeFilters: document.getElementById("activeFilters"),
-  searchInput: document.getElementById("searchInput"),
-  categoryFilter: document.getElementById("categoryFilter"),
-  dlcFilter: document.getElementById("dlcFilter"),
-  testingOnly: document.getElementById("testingOnly"),
-  officialOnly: document.getElementById("officialOnly"),
-  clearBtn: document.getElementById("clearBtn"),
-  cardTemplate: document.getElementById("cardTemplate")
-};
+function createTag(text) {
+  const span = document.createElement("span");
+  span.className = "tag";
+  span.textContent = text;
+  return span;
+}
 
-const SECTION_ORDER = [
-  "Getting Started",
-  "Money",
-  "Careers",
-  "Lifestyle",
-  "Aspirations",
-  "Build / Buy",
-  "Skills",
-  "Relationships",
-  "Occults",
-  "Other"
-];
+function createOpenLink(href, label) {
+  const link = document.createElement("a");
+  link.className = "open-link";
+  link.href = href || "#";
+  link.textContent = label;
 
-function showFatalError(message) {
-  if (els.resultSummary) {
-    els.resultSummary.textContent = "Error loading cheats";
+  if (href === "#") {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+    });
   }
 
-  if (els.results) {
-    els.results.innerHTML = `
-      <div class="empty-state">
-        <strong>Site error:</strong><br>
-        ${message}
-      </div>
-    `;
-  }
-
-  if (els.totalCount) {
-    els.totalCount.textContent = "0";
-  }
+  return link;
 }
 
-function getCheatData() {
-  if (typeof window.CHEAT_DATA === "undefined") {
-    showFatalError("Could not load cheats-data.js. Make sure cheats-data.js is in the same folder as index.html and app.js.");
-    return [];
-  }
+function renderHomePage() {
+  const systemGrid = document.getElementById("systemGrid");
+  const systemCount = document.getElementById("systemCount");
+  const gameCount = document.getElementById("gameCount");
+  const homeSummary = document.getElementById("homeSummary");
 
-  if (!Array.isArray(window.CHEAT_DATA)) {
-    showFatalError("CHEAT_DATA was found, but it is not a valid array.");
-    return [];
-  }
+  if (!systemGrid) return;
 
-  return window.CHEAT_DATA;
-}
+  const systems = window.SYSTEMS || [];
+  const allGames = Object.values(window.GAMES_BY_SYSTEM || {}).flat();
 
-const CHEATS = getCheatData();
+  systemGrid.innerHTML = "";
+  systemCount.textContent = String(systems.length);
+  gameCount.textContent = String(allGames.length);
+  homeSummary.textContent = `${systems.length} system${systems.length === 1 ? "" : "s"} available`;
 
-function getSection(item) {
-  const category = item.category || "Other";
-  if (SECTION_ORDER.includes(category)) return category;
-  return "Other";
-}
-
-function uniqueSectionValues(items) {
-  const values = [...new Set(items.map(getSection).filter(Boolean))];
-  return values.sort((a, b) => {
-    const aIndex = SECTION_ORDER.indexOf(a);
-    const bIndex = SECTION_ORDER.indexOf(b);
-
-    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
-    if (aIndex !== -1) return -1;
-    if (bIndex !== -1) return 1;
-    return a.localeCompare(b);
-  });
-}
-
-function uniqueDlcValues(items) {
-  return [...new Set(items.map(item => item.dlc).filter(Boolean))].sort((a, b) =>
-    a.localeCompare(b)
-  );
-}
-
-function populateSelect(select, values) {
-  if (!select) return;
-
-  values.forEach(value => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = value;
-    select.appendChild(option);
-  });
-}
-
-function formatVerification(value) {
-  return value === "official" ? "Official setup" : "Community-curated";
-}
-
-function matchesSearch(item, search) {
-  if (!search) return true;
-
-  const haystack = [
-    item.name,
-    item.code,
-    item.effect,
-    item.category,
-    item.dlc,
-    item.notes,
-    item.verification
-  ]
-    .join(" ")
-    .toLowerCase();
-
-  return haystack.includes(search);
-}
-
-function filteredData() {
-  const search = state.search.trim().toLowerCase();
-
-  return CHEATS.filter(item => {
-    if (!matchesSearch(item, search)) return false;
-    if (state.category !== "all" && getSection(item) !== state.category) return false;
-    if (state.dlc !== "all" && item.dlc !== state.dlc) return false;
-    if (state.testingOnly && !item.needsTestingCheats) return false;
-    if (state.officialOnly && item.verification !== "official") return false;
-    return true;
-  });
-}
-
-function renderActiveFilters() {
-  if (!els.activeFilters) return;
-
-  const chips = [];
-  if (state.search) chips.push(`Search: ${state.search}`);
-  if (state.category !== "all") chips.push(`Section: ${state.category}`);
-  if (state.dlc !== "all") chips.push(`Pack: ${state.dlc}`);
-  if (state.testingOnly) chips.push("Needs testingcheats");
-  if (state.officialOnly) chips.push("Official only");
-
-  els.activeFilters.innerHTML = "";
-
-  chips.forEach(text => {
-    const chip = document.createElement("span");
-    chip.className = "active-filter-chip";
-    chip.textContent = text;
-    els.activeFilters.appendChild(chip);
-  });
-}
-
-function createCard(item) {
-  const node = els.cardTemplate.content.firstElementChild.cloneNode(true);
-
-  node.querySelector(".tag--category").textContent = getSection(item);
-  node.querySelector(".tag--dlc").textContent = item.dlc;
-  node.querySelector(".tag--verify").textContent = formatVerification(item.verification);
-  node.querySelector(".card__title").textContent = item.name;
-  node.querySelector(".code-block").textContent = item.code;
-  node.querySelector(".effect").textContent = item.effect;
-  node.querySelector(".notes").textContent = item.notes || "";
-
-  if (item.needsTestingCheats) {
-    node.querySelector(".tag--testing").classList.remove("hidden");
-  }
-
-  const copyBtn = node.querySelector(".copy-btn");
-  copyBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(item.code);
-      const original = copyBtn.textContent;
-      copyBtn.textContent = "Copied";
-
-      setTimeout(() => {
-        copyBtn.textContent = original;
-      }, 1000);
-    } catch (error) {
-      copyBtn.textContent = "Copy failed";
-
-      setTimeout(() => {
-        copyBtn.textContent = "Copy code";
-      }, 1200);
-    }
-  });
-
-  return node;
-}
-
-function groupBySection(items) {
-  const grouped = {};
-
-  items.forEach(item => {
-    const section = getSection(item);
-    if (!grouped[section]) grouped[section] = [];
-    grouped[section].push(item);
-  });
-
-  return grouped;
-}
-
-function createSectionBlock(sectionName, items) {
-  const wrapper = document.createElement("section");
-  wrapper.className = "section-block";
-
-  const header = document.createElement("div");
-  header.className = "section-header";
-
-  const title = document.createElement("h3");
-  title.className = "section-title";
-  title.textContent = sectionName;
-
-  const count = document.createElement("span");
-  count.className = "section-count";
-  count.textContent = `${items.length} cheat${items.length === 1 ? "" : "s"}`;
-
-  header.appendChild(title);
-  header.appendChild(count);
-
-  const grid = document.createElement("div");
-  grid.className = "section-grid";
-
-  items.forEach(item => {
-    grid.appendChild(createCard(item));
-  });
-
-  wrapper.appendChild(header);
-  wrapper.appendChild(grid);
-
-  return wrapper;
-}
-
-function renderResults() {
-  if (!els.results || !els.resultSummary || !els.totalCount) return;
-
-  const items = filteredData();
-  const grouped = groupBySection(items);
-  const visibleSections = SECTION_ORDER.filter(section => grouped[section]?.length);
-
-  els.results.innerHTML = "";
-  els.totalCount.textContent = String(CHEATS.length);
-  els.resultSummary.textContent = `${items.length} result${items.length === 1 ? "" : "s"} in ${visibleSections.length} section${visibleSections.length === 1 ? "" : "s"}`;
-
-  renderActiveFilters();
-
-  if (!items.length) {
+  if (!systems.length) {
     const empty = document.createElement("div");
     empty.className = "empty-state";
-    empty.innerHTML =
-      "<strong>No cheats matched.</strong><br>Try a broader search, another section, or clear the filters.";
-    els.results.appendChild(empty);
+    empty.textContent = "No systems found.";
+    systemGrid.appendChild(empty);
     return;
   }
 
-  visibleSections.forEach(section => {
-    els.results.appendChild(createSectionBlock(section, grouped[section]));
+  systems.forEach(system => {
+    const card = document.createElement("article");
+    card.className = "system-card";
+
+    const tagRow = document.createElement("div");
+    tagRow.className = "tag-row";
+    tagRow.appendChild(createTag(system.status));
+
+    const title = document.createElement("h3");
+    title.className = "system-card__title";
+    title.textContent = system.name;
+
+    const desc = document.createElement("p");
+    desc.className = "system-card__desc";
+    desc.textContent = system.description;
+
+    const footer = document.createElement("div");
+    footer.className = "system-card__footer";
+    footer.appendChild(createOpenLink(system.href, system.status === "Live" ? "Open System" : "Coming Soon"));
+
+    card.appendChild(tagRow);
+    card.appendChild(title);
+    card.appendChild(desc);
+    card.appendChild(footer);
+
+    systemGrid.appendChild(card);
   });
 }
 
-function clearFilters() {
-  state.search = "";
-  state.category = "all";
-  state.dlc = "all";
-  state.testingOnly = false;
-  state.officialOnly = false;
+function renderSystemPage() {
+  const systemName = document.documentElement.dataset.system || "";
+  const gameGrid = document.getElementById("gameGrid");
+  const systemSummary = document.getElementById("systemSummary");
 
-  if (els.searchInput) els.searchInput.value = "";
-  if (els.categoryFilter) els.categoryFilter.value = "all";
-  if (els.dlcFilter) els.dlcFilter.value = "all";
-  if (els.testingOnly) els.testingOnly.checked = false;
-  if (els.officialOnly) els.officialOnly.checked = false;
+  if (!gameGrid) return;
 
-  renderResults();
+  const games = (window.GAMES_BY_SYSTEM && window.GAMES_BY_SYSTEM[systemName]) || [];
+  gameGrid.innerHTML = "";
+  systemSummary.textContent = `${games.length} game${games.length === 1 ? "" : "s"} found`;
+
+  if (!games.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "No games found for this system yet.";
+    gameGrid.appendChild(empty);
+    return;
+  }
+
+  games.forEach(game => {
+    const card = document.createElement("article");
+    card.className = "game-card";
+
+    const tagRow = document.createElement("div");
+    tagRow.className = "tag-row";
+    tagRow.appendChild(createTag(systemName));
+    tagRow.appendChild(createTag(game.status));
+
+    const title = document.createElement("h3");
+    title.className = "game-card__title";
+    title.textContent = game.name;
+
+    const desc = document.createElement("p");
+    desc.className = "game-card__desc";
+    desc.textContent = game.description;
+
+    const footer = document.createElement("div");
+    footer.className = "game-card__footer";
+    footer.appendChild(createOpenLink(game.href, game.status === "Live" ? "Open Game" : "Coming Soon"));
+
+    card.appendChild(tagRow);
+    card.appendChild(title);
+    card.appendChild(desc);
+    card.appendChild(footer);
+
+    gameGrid.appendChild(card);
+  });
 }
 
-function init() {
-  if (!CHEATS.length) return;
-
-  populateSelect(els.categoryFilter, uniqueSectionValues(CHEATS));
-  populateSelect(els.dlcFilter, uniqueDlcValues(CHEATS));
-
-  if (els.searchInput) {
-    els.searchInput.addEventListener("input", event => {
-      state.search = event.target.value;
-      renderResults();
-    });
-  }
-
-  if (els.categoryFilter) {
-    els.categoryFilter.addEventListener("change", event => {
-      state.category = event.target.value;
-      renderResults();
-    });
-  }
-
-  if (els.dlcFilter) {
-    els.dlcFilter.addEventListener("change", event => {
-      state.dlc = event.target.value;
-      renderResults();
-    });
-  }
-
-  if (els.testingOnly) {
-    els.testingOnly.addEventListener("change", event => {
-      state.testingOnly = event.target.checked;
-      renderResults();
-    });
-  }
-
-  if (els.officialOnly) {
-    els.officialOnly.addEventListener("change", event => {
-      state.officialOnly = event.target.checked;
-      renderResults();
-    });
-  }
-
-  if (els.clearBtn) {
-    els.clearBtn.addEventListener("click", clearFilters);
-  }
-
-  renderResults();
+if (pageType === "home") {
+  renderHomePage();
 }
 
-init();
+if (pageType === "system") {
+  renderSystemPage();
+}
