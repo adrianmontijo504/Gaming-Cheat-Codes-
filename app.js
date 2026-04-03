@@ -64,7 +64,9 @@ function renderHomePage() {
 
     const footer = document.createElement("div");
     footer.className = "system-card__footer";
-    footer.appendChild(createOpenLink(system.href, system.status === "Live" ? "Open System" : "Coming Soon"));
+    footer.appendChild(
+      createOpenLink(system.href, system.status === "Live" ? "Open System" : "Coming Soon")
+    );
 
     card.appendChild(tagRow);
     card.appendChild(title);
@@ -113,7 +115,9 @@ function renderSystemPage() {
 
     const footer = document.createElement("div");
     footer.className = "game-card__footer";
-    footer.appendChild(createOpenLink(game.href, game.status === "Live" ? "Open Game" : "Coming Soon"));
+    footer.appendChild(
+      createOpenLink(game.href, game.status === "Live" ? "Open Game" : "Coming Soon")
+    );
 
     card.appendChild(tagRow);
     card.appendChild(title);
@@ -124,10 +128,120 @@ function renderSystemPage() {
   });
 }
 
+function initPs5FloatingSymbols() {
+  const wrapper = document.querySelector(".ps-bg-icons");
+  const symbols = Array.from(document.querySelectorAll(".ps-bg-icons .ps-symbol"));
+
+  if (!wrapper || !symbols.length) return;
+
+  const sizes = {
+    md: { min: 68, max: 88, speed: 1.4 },
+    lg: { min: 92, max: 118, speed: 1.7 },
+    xl: { min: 120, max: 156, speed: 2.0 }
+  };
+
+  const items = [];
+
+  function randomBetween(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function setInitialState() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    items.length = 0;
+
+    symbols.forEach((el, index) => {
+      const sizeKey = el.dataset.size || "lg";
+      const config = sizes[sizeKey] || sizes.lg;
+      const base = randomBetween(config.min, config.max);
+      const angle = randomBetween(0, Math.PI * 2);
+      const speed = randomBetween(config.speed * 0.7, config.speed * 1.25);
+      const rotation = randomBetween(-18, 18);
+
+      const x = randomBetween(0, Math.max(20, width - base));
+      const y = randomBetween(0, Math.max(20, height - base));
+
+      el.style.width = `${base}px`;
+      el.style.height = `${base}px`;
+      el.style.fontSize = `${base * 0.64}px`;
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+
+      items.push({
+        el,
+        x,
+        y,
+        size: base,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        rotation,
+        rotationSpeed: randomBetween(-0.16, 0.16),
+        pulseOffset: index * 0.9 + randomBetween(0, 3)
+      });
+    });
+  }
+
+  let lastTime = performance.now();
+
+  function tick(now) {
+    const dt = Math.min((now - lastTime) / 16.6667, 2);
+    lastTime = now;
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    items.forEach((item, index) => {
+      item.x += item.vx * dt;
+      item.y += item.vy * dt;
+      item.rotation += item.rotationSpeed * dt * 8;
+
+      if (item.x <= 0) {
+        item.x = 0;
+        item.vx *= -1;
+      } else if (item.x + item.size >= width) {
+        item.x = width - item.size;
+        item.vx *= -1;
+      }
+
+      if (item.y <= 0) {
+        item.y = 0;
+        item.vy *= -1;
+      } else if (item.y + item.size >= height) {
+        item.y = height - item.size;
+        item.vy *= -1;
+      }
+
+      const pulse = 1 + Math.sin(now / 420 + item.pulseOffset + index * 0.13) * 0.045;
+
+      item.el.style.left = `${item.x}px`;
+      item.el.style.top = `${item.y}px`;
+      item.el.style.transform = `rotate(${item.rotation}deg) scale(${pulse})`;
+    });
+
+    requestAnimationFrame(tick);
+  }
+
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      setInitialState();
+    }, 120);
+  });
+
+  setInitialState();
+  requestAnimationFrame(tick);
+}
+
 if (pageType === "home") {
   renderHomePage();
 }
 
 if (pageType === "system") {
   renderSystemPage();
+}
+
+if (document.body.classList.contains("ps5-page")) {
+  initPs5FloatingSymbols();
 }
