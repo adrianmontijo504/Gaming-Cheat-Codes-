@@ -1,162 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-page="home">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Game Cheat Lookup | Sims 4 PS5</title>
-  <meta
-    name="description"
-    content="Search Sims 4 cheat codes for PlayStation 5 by section, pack, and keyword."
-  />
+  <title>Game Cheat Lookup</title>
+  <meta name="description" content="Browse cheat guides by game system." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="bg-grid"></div>
 
-  <header class="hero">
-    <div class="hero__inner">
-      <div class="eyebrow">Starter cheat-code database</div>
+  <header class="site-header">
+    <div class="container">
+      <div class="eyebrow">Homepage</div>
       <h1>Game Cheat Lookup</h1>
-      <p class="hero__copy">
-        Searchable cheat-code site starting with <strong>The Sims 4 on PlayStation 5</strong>.
-        Cheats are organized into sections like Money, Careers, Lifestyle, Aspirations,
-        Build / Buy, Skills, Relationships, and Occults.
+      <p class="hero-copy">
+        Pick a game system to open its game list. This setup is built so you can
+        add more systems and more games later.
       </p>
-
-      <div class="hero__meta">
-        <div class="meta-card">
-          <span class="meta-label">Game</span>
-          <span class="meta-value">The Sims 4</span>
-        </div>
-        <div class="meta-card">
-          <span class="meta-label">Platform</span>
-          <span class="meta-value">PS5</span>
-        </div>
-        <div class="meta-card">
-          <span class="meta-label">Cheats loaded</span>
-          <span class="meta-value" id="totalCount">0</span>
-        </div>
-      </div>
-
-      <div class="quick-start">
-        <h2>Activate cheats</h2>
-
-        <div class="quick-steps">
-          <div class="quick-step">Open your save.</div>
-          <div class="quick-step">
-            Press <code>L1 + L2 + R1 + R2</code> together.
-          </div>
-          <div class="quick-step">
-            Type <code>testingcheats on</code> and press
-            <span class="ps-button ps-button--circle" aria-label="Circle button">◯</span>
-          </div>
-          <div class="quick-step">
-            Enter any cheat below and press
-            <span class="ps-button ps-button--circle" aria-label="Circle button">◯</span>
-            again.
-          </div>
-        </div>
-
-        <p class="warning">
-          Warning: enabling <code>testingcheats</code> disables trophies/achievements for that save.
-        </p>
-      </div>
     </div>
   </header>
 
-  <main class="layout">
-    <aside class="sidebar">
-      <section class="panel">
-        <label class="label" for="searchInput">Search cheats</label>
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Search code, name, section, effect, pack..."
-        />
-      </section>
-
-      <section class="panel">
-        <label class="label" for="categoryFilter">Section</label>
-        <select id="categoryFilter">
-          <option value="all">All sections</option>
-        </select>
-      </section>
-
-      <section class="panel">
-        <label class="label" for="dlcFilter">Pack / DLC</label>
-        <select id="dlcFilter">
-          <option value="all">All packs</option>
-        </select>
-      </section>
-
-      <section class="panel">
-        <span class="label">Show only</span>
-
-        <label class="check">
-          <input type="checkbox" id="testingOnly" />
-          Cheats that require testingcheats on
-        </label>
-
-        <label class="check">
-          <input type="checkbox" id="officialOnly" />
-          Official setup info only
-        </label>
-      </section>
-
-      <section class="panel sources">
-        <h3>Sections</h3>
-        <ul>
-          <li>Getting Started</li>
-          <li>Money</li>
-          <li>Careers</li>
-          <li>Lifestyle</li>
-          <li>Aspirations</li>
-          <li>Build / Buy</li>
-          <li>Skills</li>
-          <li>Relationships</li>
-          <li>Occults</li>
-        </ul>
-      </section>
-    </aside>
-
-    <section class="content">
-      <div class="toolbar">
-        <div>
-          <h2>Cheat results</h2>
-          <p id="resultSummary">Loading...</p>
+  <main class="container">
+    <section class="panel hero-panel">
+      <div class="stats">
+        <div class="stat-card">
+          <span class="stat-label">Systems</span>
+          <span class="stat-value" id="systemCount">0</span>
         </div>
+        <div class="stat-card">
+          <span class="stat-label">Games</span>
+          <span class="stat-value" id="gameCount">0</span>
+        </div>
+      </div>
+    </section>
 
-        <button id="clearBtn" class="ghost-btn" type="button">Clear filters</button>
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <h2>Choose a system</h2>
+          <p id="homeSummary">Loading...</p>
+        </div>
       </div>
 
-      <div id="activeFilters" class="active-filters"></div>
-      <div id="results" class="results" aria-live="polite"></div>
+      <div id="systemGrid" class="card-grid"></div>
     </section>
   </main>
 
-  <template id="cardTemplate">
-    <article class="card">
-      <div class="card__top">
-        <div>
-          <div class="tags">
-            <span class="tag tag--category"></span>
-            <span class="tag tag--dlc"></span>
-            <span class="tag tag--verify"></span>
-            <span class="tag tag--testing hidden">Needs testingcheats</span>
-          </div>
-          <h3 class="card__title"></h3>
-        </div>
-
-        <button class="copy-btn" type="button">Copy code</button>
-      </div>
-
-      <div class="code-block"></div>
-      <p class="effect"></p>
-      <p class="notes"></p>
-    </article>
-  </template>
-
-  <script src="cheats-data.js"></script>
+  <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
