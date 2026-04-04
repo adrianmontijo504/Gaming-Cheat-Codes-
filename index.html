@@ -10,26 +10,76 @@
 <body>
   <div class="bg-grid"></div>
 
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <button
+        id="menuToggle"
+        class="menu-btn"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="sideMenu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <a class="brand" href="index.html">
+        <span class="brand__title">Game Cheat Lookup</span>
+        <span class="brand__subtitle">Systems and Games</span>
+      </a>
+    </div>
+  </header>
+
+  <aside id="sideMenu" class="side-menu" aria-hidden="true">
+    <div class="side-menu__header">
+      <h2>Browse</h2>
+      <button id="closeMenu" class="close-btn" type="button" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="side-menu__content">
+      <label class="label" for="menuSearch">Search systems or games</label>
+      <input id="menuSearch" type="search" placeholder="Search..." />
+
+      <div class="menu-toolbar">
+        <button id="showAllSystemsBtn" class="menu-chip" type="button">All Systems</button>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section__title">Systems</div>
+        <div id="menuSystemList" class="menu-system-list"></div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section__title">Games</div>
+        <div id="menuGameList" class="menu-game-list"></div>
+      </div>
+    </div>
+  </aside>
+
+  <div id="menuOverlay" class="menu-overlay"></div>
+
   <header class="site-header">
     <div class="container">
       <div class="eyebrow">Homepage</div>
-      <h1>Game Cheat Lookup</h1>
+      <h1>Choose a system</h1>
       <p class="hero-copy">
-        Pick a game system to open its game list. This setup is built so you can
-        add more systems and more games later.
+        Use the hamburger menu on any page to browse all systems and all connected games.
+        Start here by picking a system.
       </p>
     </div>
   </header>
 
   <main class="container">
-    <section class="panel hero-panel">
+    <section class="panel">
       <div class="stats">
         <div class="stat-card">
           <span class="stat-label">Systems</span>
           <span class="stat-value" id="systemCount">0</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Games</span>
+          <span class="stat-label">Connected Games</span>
           <span class="stat-value" id="gameCount">0</span>
         </div>
       </div>
@@ -38,7 +88,7 @@
     <section class="panel">
       <div class="section-head">
         <div>
-          <h2>Choose a system</h2>
+          <h2>Systems</h2>
           <p id="homeSummary">Loading...</p>
         </div>
       </div>
