@@ -86,23 +86,23 @@ a {
   align-items: center;
   gap: 14px;
   min-height: 70px;
-  border: 1px solid rgba(186, 211, 255, 0.12);
+  border: 1px solid rgba(186, 211, 255, 0.08);
   background:
-    linear-gradient(180deg, rgba(18, 31, 67, 0.56), rgba(10, 18, 42, 0.5)),
-    rgba(255, 255, 255, 0.015);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    linear-gradient(180deg, rgba(18, 31, 67, 0.01), rgba(10, 18, 42, 0.01)),
+    rgba(255, 255, 255, 0.002);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 22px;
   box-shadow:
-    0 14px 26px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 6px 14px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .menu-btn {
   width: 52px;
   height: 52px;
-  border: 1px solid rgba(186, 211, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(186, 211, 255, 0.14);
+  background: rgba(255, 255, 255, 0.01);
   border-radius: 16px;
   display: inline-flex;
   flex-direction: column;
@@ -111,6 +111,7 @@ a {
   padding: 0 12px;
   cursor: pointer;
   flex: 0 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
 .menu-btn span {
@@ -148,9 +149,9 @@ a {
   transform: translateX(-104%);
   transition: transform 0.22s ease;
   background:
-    linear-gradient(180deg, rgba(12, 22, 49, 0.98), rgba(8, 16, 38, 0.99));
-  border-right: 1px solid rgba(186, 211, 255, 0.14);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
+    linear-gradient(180deg, rgba(12, 22, 49, 0.94), rgba(8, 16, 38, 0.97));
+  border-right: 1px solid rgba(186, 211, 255, 0.1);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
   z-index: 60;
   overflow-y: auto;
 }
@@ -165,7 +166,7 @@ a {
   justify-content: space-between;
   gap: 12px;
   padding: 18px;
-  border-bottom: 1px solid rgba(186, 211, 255, 0.1);
+  border-bottom: 1px solid rgba(186, 211, 255, 0.08);
 }
 
 .side-menu__header h2 {
@@ -176,8 +177,8 @@ a {
 .close-btn {
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(186, 211, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(186, 211, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
   border-radius: 12px;
   cursor: pointer;
@@ -196,8 +197,8 @@ a {
 
 input[type="search"] {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: #050b18;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(5, 11, 24, 0.8);
   color: #ffffff;
   border-radius: 14px;
   padding: 12px 14px;
@@ -219,8 +220,8 @@ input[type="search"]::placeholder {
 .menu-chip,
 .menu-system-btn {
   width: 100%;
-  border: 1px solid rgba(186, 211, 255, 0.16);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(186, 211, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
   color: #ffffff;
   border-radius: 14px;
   padding: 12px 14px;
@@ -238,8 +239,8 @@ input[type="search"]::placeholder {
 
 .menu-chip.is-active,
 .menu-system-btn.is-active {
-  border-color: rgba(186, 211, 255, 0.34);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(186, 211, 255, 0.24);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .menu-section {
@@ -275,16 +276,16 @@ input[type="search"]::placeholder {
 .menu-game-link {
   display: grid;
   gap: 6px;
-  border: 1px solid rgba(186, 211, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(186, 211, 255, 0.1);
+  background: rgba(255, 255, 255, 0.025);
   color: #ffffff;
   border-radius: 16px;
   padding: 12px 14px;
 }
 
 .menu-game-link.is-current {
-  border-color: rgba(186, 211, 255, 0.34);
-  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(186, 211, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .menu-game-link__top {
@@ -312,7 +313,7 @@ input[type="search"]::placeholder {
 .menu-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.46);
+  background: rgba(0, 0, 0, 0.32);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.22s ease;
@@ -339,13 +340,13 @@ input[type="search"]::placeholder {
   margin-bottom: 12px;
   padding: 9px 14px;
   border-radius: 999px;
-  border: 1px solid var(--line-strong);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(186, 211, 255, 0.12);
+  background: rgba(255, 255, 255, 0.01);
   color: #d9e5ff;
   font-size: 0.82rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
 }
 
 h1 {
@@ -374,15 +375,15 @@ h1 {
 }
 
 .panel {
-  border: 1px solid rgba(186, 211, 255, 0.12);
+  border: 1px solid rgba(186, 211, 255, 0.08);
   background:
-    linear-gradient(180deg, rgba(14, 24, 52, 0.34), rgba(10, 19, 44, 0.28)),
-    rgba(255, 255, 255, 0.015);
+    linear-gradient(180deg, rgba(14, 24, 52, 0.01), rgba(10, 19, 44, 0.01)),
+    rgba(255, 255, 255, 0.002);
   box-shadow:
-    0 14px 30px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    0 6px 14px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: var(--radius);
   padding: 22px;
   margin-bottom: 22px;
@@ -418,12 +419,12 @@ h1 {
 .system-card,
 .game-card,
 .feature-card {
-  border: 1px solid rgba(186, 211, 255, 0.1);
-  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(186, 211, 255, 0.08);
+  background: rgba(255, 255, 255, 0.01);
   border-radius: 20px;
   box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    0 4px 10px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.015);
 }
 
 .stat-card {
@@ -487,12 +488,12 @@ h1 {
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
-  border: 1px solid rgba(186, 211, 255, 0.12);
-  background: rgba(255, 255, 255, 0.024);
+  border: 1px solid rgba(186, 211, 255, 0.08);
+  background: rgba(255, 255, 255, 0.01);
   padding: 8px 12px;
   font-size: 0.82rem;
   color: #dbe7ff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .open-link {
@@ -500,25 +501,25 @@ h1 {
   align-items: center;
   justify-content: center;
   min-height: 46px;
-  border: 1px solid rgba(141, 186, 255, 0.3);
+  border: 1px solid rgba(141, 186, 255, 0.24);
   background:
-    linear-gradient(180deg, rgba(104, 159, 255, 0.22), rgba(48, 95, 186, 0.16)),
-    rgba(255, 255, 255, 0.06);
+    linear-gradient(180deg, rgba(104, 159, 255, 0.14), rgba(48, 95, 186, 0.08)),
+    rgba(255, 255, 255, 0.025);
   color: #ffffff;
   border-radius: 14px;
   padding: 11px 16px;
   font-weight: 800;
   letter-spacing: -0.01em;
   box-shadow:
-    0 12px 30px rgba(35, 84, 190, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    0 6px 14px rgba(35, 84, 190, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .empty-state {
   border-radius: 18px;
-  border: 1px dashed var(--line);
+  border: 1px dashed rgba(186, 211, 255, 0.08);
   padding: 26px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.01);
   color: var(--muted);
 }
 
@@ -562,18 +563,18 @@ h1 {
 
 .ps5-hero-copy {
   padding: 26px 28px;
-  border: 1px solid rgba(154, 198, 255, 0.12);
+  border: 1px solid rgba(154, 198, 255, 0.08);
   border-radius: 26px;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)),
-    linear-gradient(180deg, rgba(9, 23, 55, 0.38), rgba(8, 18, 42, 0.28));
+    linear-gradient(135deg, rgba(255,255,255,0.015), rgba(255,255,255,0.005)),
+    linear-gradient(180deg, rgba(9, 23, 55, 0.01), rgba(8, 18, 42, 0.01));
   box-shadow:
-    0 14px 30px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255,255,255,0.04);
+    0 6px 14px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.015);
   overflow: hidden;
   position: relative;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .ps5-hero-copy::before {
@@ -581,8 +582,8 @@ h1 {
   position: absolute;
   inset: -1px;
   background:
-    radial-gradient(circle at top right, rgba(122, 194, 255, 0.16), transparent 28%),
-    radial-gradient(circle at bottom left, rgba(81, 121, 255, 0.13), transparent 26%);
+    radial-gradient(circle at top right, rgba(122, 194, 255, 0.08), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(81, 121, 255, 0.06), transparent 26%);
   pointer-events: none;
 }
 
@@ -594,12 +595,12 @@ h1 {
 .feature-card {
   padding: 20px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)),
-    rgba(8, 18, 42, 0.86);
-  border: 1px solid rgba(154, 198, 255, 0.16);
+    linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)),
+    rgba(8, 18, 42, 0.01);
+  border: 1px solid rgba(154, 198, 255, 0.08);
   box-shadow:
-    var(--shadow-soft),
-    inset 0 1px 0 rgba(255,255,255,0.06);
+    0 4px 10px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255,255,255,0.015);
 }
 
 .feature-card__label {
@@ -635,24 +636,24 @@ h1 {
   min-height: 38px;
   padding: 0 14px;
   border-radius: 999px;
-  border: 1px solid rgba(154, 198, 255, 0.14);
-  background: rgba(255,255,255,0.028);
+  border: 1px solid rgba(154, 198, 255, 0.08);
+  background: rgba(255,255,255,0.01);
   color: #e4eeff;
   font-size: 0.88rem;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .premium-panel {
   padding: 26px;
   background:
-    linear-gradient(180deg, rgba(13, 28, 62, 0.34), rgba(8, 18, 42, 0.26)),
-    rgba(255,255,255,0.014);
-  border: 1px solid rgba(154, 198, 255, 0.12);
+    linear-gradient(180deg, rgba(13, 28, 62, 0.01), rgba(8, 18, 42, 0.01)),
+    rgba(255,255,255,0.002);
+  border: 1px solid rgba(154, 198, 255, 0.08);
   box-shadow:
-    0 16px 34px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255,255,255,0.035);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    0 6px 14px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.015);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .premium-panel--games {
@@ -667,13 +668,13 @@ h1 {
   right: -90px;
   width: 240px;
   height: 240px;
-  background: radial-gradient(circle, rgba(89, 152, 255, 0.16), transparent 65%);
+  background: radial-gradient(circle, rgba(89, 152, 255, 0.12), transparent 65%);
   pointer-events: none;
 }
 
 .premium-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(164, 197, 255, 0.34), transparent);
+  background: linear-gradient(90deg, transparent, rgba(164, 197, 255, 0.18), transparent);
   margin: 10px 0 18px;
 }
 
@@ -681,14 +682,14 @@ h1 {
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.014)),
-    linear-gradient(180deg, rgba(13, 27, 61, 0.34), rgba(10, 18, 42, 0.24));
-  border: 1px solid rgba(154, 198, 255, 0.12);
+    linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.004)),
+    linear-gradient(180deg, rgba(13, 27, 61, 0.01), rgba(10, 18, 42, 0.01));
+  border: 1px solid rgba(154, 198, 255, 0.08);
   box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.14),
-    inset 0 1px 0 rgba(255,255,255,0.04);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+    0 6px 14px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.015);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .ps5-page .game-card::before {
@@ -696,8 +697,8 @@ h1 {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.035), transparent 30%, transparent 70%, rgba(255,255,255,0.012)),
-    radial-gradient(circle at top right, rgba(94, 164, 255, 0.09), transparent 32%);
+    linear-gradient(135deg, rgba(255,255,255,0.01), transparent 30%, transparent 70%, rgba(255,255,255,0.004)),
+    radial-gradient(circle at top right, rgba(94, 164, 255, 0.05), transparent 32%);
   pointer-events: none;
 }
 
@@ -708,7 +709,7 @@ h1 {
   left: 12px;
   right: 12px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.24), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
   pointer-events: none;
 }
 
@@ -717,20 +718,20 @@ h1 {
 }
 
 .ps5-page .tag {
-  border-color: rgba(166, 203, 255, 0.22);
-  background: rgba(255,255,255,0.06);
+  border-color: rgba(166, 203, 255, 0.1);
+  background: rgba(255,255,255,0.012);
   color: #e5efff;
 }
 
 .ps5-page .open-link {
   min-width: 140px;
   background:
-    linear-gradient(180deg, rgba(116, 173, 255, 0.28), rgba(59, 111, 209, 0.16)),
-    rgba(255,255,255,0.05);
-  border-color: rgba(159, 201, 255, 0.3);
+    linear-gradient(180deg, rgba(116, 173, 255, 0.16), rgba(59, 111, 209, 0.08)),
+    rgba(255,255,255,0.02);
+  border-color: rgba(159, 201, 255, 0.2);
   box-shadow:
-    0 14px 30px rgba(37, 82, 185, 0.26),
-    inset 0 1px 0 rgba(255,255,255,0.14);
+    0 6px 14px rgba(37, 82, 185, 0.12),
+    inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 /* premium PS5 floating symbols */
