@@ -211,6 +211,9 @@ input[type="search"]::placeholder {
 
 .menu-toolbar {
   margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .menu-chip,
@@ -224,6 +227,13 @@ input[type="search"]::placeholder {
   cursor: pointer;
   text-align: left;
   font-weight: 700;
+}
+
+.menu-chip--link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .menu-chip.is-active,
@@ -534,6 +544,14 @@ h1 {
   grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
   gap: 20px;
   align-items: stretch;
+}
+
+.ps5-hero-panel--single {
+  grid-template-columns: 1fr;
+}
+
+.ps5-hero-panel--single .ps5-hero-copy {
+  max-width: 100%;
 }
 
 .ps5-hero-copy {
