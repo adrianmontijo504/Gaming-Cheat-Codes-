@@ -129,109 +129,109 @@ function renderSystemPage() {
 }
 
 function initPs5FloatingSymbols() {
-  const wrapper = document.querySelector(".ps-bg-icons");
   const symbols = Array.from(document.querySelectorAll(".ps-bg-icons .ps-symbol"));
+  if (!symbols.length) return;
 
-  if (!wrapper || !symbols.length) return;
-
-  const sizes = {
-    md: { min: 68, max: 88, speed: 1.4 },
-    lg: { min: 92, max: 118, speed: 1.7 },
-    xl: { min: 120, max: 156, speed: 2.0 }
+  const sizeMap = {
+    md: { min: 54, max: 72, speed: 0.45 },
+    lg: { min: 72, max: 96, speed: 0.55 },
+    xl: { min: 96, max: 124, speed: 0.65 }
   };
 
   const items = [];
+  let rafId = null;
+  let lastTime = 0;
 
   function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
   }
 
-  function setInitialState() {
+  function setupSymbols() {
     const width = window.innerWidth;
     const height = window.innerHeight;
     items.length = 0;
 
     symbols.forEach((el, index) => {
       const sizeKey = el.dataset.size || "lg";
-      const config = sizes[sizeKey] || sizes.lg;
-      const base = randomBetween(config.min, config.max);
+      const config = sizeMap[sizeKey] || sizeMap.lg;
+      const size = randomBetween(config.min, config.max);
       const angle = randomBetween(0, Math.PI * 2);
-      const speed = randomBetween(config.speed * 0.7, config.speed * 1.25);
+      const speed = randomBetween(config.speed * 0.85, config.speed * 1.15);
       const rotation = randomBetween(-18, 18);
+      const rotationSpeed = randomBetween(-0.025, 0.025);
 
-      const x = randomBetween(0, Math.max(20, width - base));
-      const y = randomBetween(0, Math.max(20, height - base));
+      const x = randomBetween(0, Math.max(10, width - size));
+      const y = randomBetween(0, Math.max(10, height - size));
 
-      el.style.width = `${base}px`;
-      el.style.height = `${base}px`;
-      el.style.fontSize = `${base * 0.64}px`;
-      el.style.left = `${x}px`;
-      el.style.top = `${y}px`;
+      el.style.width = `${size}px`;
+      el.style.height = `${size}px`;
+      el.style.fontSize = `${size * 0.62}px`;
 
       items.push({
         el,
         x,
         y,
-        size: base,
+        size,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         rotation,
-        rotationSpeed: randomBetween(-0.16, 0.16),
-        pulseOffset: index * 0.9 + randomBetween(0, 3)
+        rotationSpeed,
+        pulseOffset: index * 0.6
       });
     });
   }
 
-  let lastTime = performance.now();
-
-  function tick(now) {
-    const dt = Math.min((now - lastTime) / 16.6667, 2);
-    lastTime = now;
+  function animate(time) {
+    if (!lastTime) lastTime = time;
+    const dt = Math.min((time - lastTime) / 16.6667, 1.5);
+    lastTime = time;
 
     const width = window.innerWidth;
     const height = window.innerHeight;
 
-    items.forEach((item, index) => {
+    for (const item of items) {
       item.x += item.vx * dt;
       item.y += item.vy * dt;
-      item.rotation += item.rotationSpeed * dt * 8;
+      item.rotation += item.rotationSpeed * dt * 60;
 
       if (item.x <= 0) {
         item.x = 0;
-        item.vx *= -1;
+        item.vx = Math.abs(item.vx);
       } else if (item.x + item.size >= width) {
         item.x = width - item.size;
-        item.vx *= -1;
+        item.vx = -Math.abs(item.vx);
       }
 
       if (item.y <= 0) {
         item.y = 0;
-        item.vy *= -1;
+        item.vy = Math.abs(item.vy);
       } else if (item.y + item.size >= height) {
         item.y = height - item.size;
-        item.vy *= -1;
+        item.vy = -Math.abs(item.vy);
       }
 
-      const pulse = 1 + Math.sin(now / 420 + item.pulseOffset + index * 0.13) * 0.045;
+      const pulse = 1 + Math.sin(time / 1200 + item.pulseOffset) * 0.02;
 
-      item.el.style.left = `${item.x}px`;
-      item.el.style.top = `${item.y}px`;
-      item.el.style.transform = `rotate(${item.rotation}deg) scale(${pulse})`;
-    });
+      item.el.style.transform = `translate3d(${item.x}px, ${item.y}px, 0) rotate(${item.rotation}deg) scale(${pulse})`;
+    }
 
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(animate);
   }
 
-  let resizeTimeout;
+  let resizeTimer = null;
   window.addEventListener("resize", () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      setInitialState();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      setupSymbols();
     }, 120);
   });
 
-  setInitialState();
-  requestAnimationFrame(tick);
+  setupSymbols();
+  rafId = requestAnimationFrame(animate);
+
+  window.addEventListener("pagehide", () => {
+    if (rafId) cancelAnimationFrame(rafId);
+  });
 }
 
 if (pageType === "home") {
