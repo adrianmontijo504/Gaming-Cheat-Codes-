@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-page="game" data-system="PlayStation 5" data-game="The Sims 4">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,14 +10,63 @@
 <body>
   <div class="bg-grid"></div>
 
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <button
+        id="menuToggle"
+        class="menu-btn"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="sideMenu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <a class="brand" href="index.html">
+        <span class="brand__title">Game Cheat Lookup</span>
+        <span class="brand__subtitle">Systems and Games</span>
+      </a>
+    </div>
+  </header>
+
+  <aside id="sideMenu" class="side-menu" aria-hidden="true">
+    <div class="side-menu__header">
+      <h2>Browse</h2>
+      <button id="closeMenu" class="close-btn" type="button" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="side-menu__content">
+      <label class="label" for="menuSearch">Search systems or games</label>
+      <input id="menuSearch" type="search" placeholder="Search..." />
+
+      <div class="menu-toolbar">
+        <button id="showAllSystemsBtn" class="menu-chip" type="button">All Systems</button>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section__title">Systems</div>
+        <div id="menuSystemList" class="menu-system-list"></div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section__title">Games</div>
+        <div id="menuGameList" class="menu-game-list"></div>
+      </div>
+    </div>
+  </aside>
+
+  <div id="menuOverlay" class="menu-overlay"></div>
+
   <header class="site-header">
     <div class="container">
       <a class="back-link" href="ps5.html">← Back to PlayStation 5</a>
       <div class="eyebrow">Game Page</div>
       <h1>The Sims 4</h1>
       <p class="hero-copy">
-        This is the PlayStation 5 game page for The Sims 4.
-        You can replace this page later with your full cheat database page.
+        This is the PlayStation 5 Sims 4 page connected through the shared hamburger menu.
       </p>
     </div>
   </header>
@@ -27,7 +76,7 @@
       <div class="section-head">
         <div>
           <h2>Current Setup</h2>
-          <p>This page is connected from the homepage to the PS5 page, then to Sims 4.</p>
+          <p>This page is connected from Home → PlayStation 5 → The Sims 4.</p>
         </div>
       </div>
 
@@ -44,10 +93,13 @@
 
         <div class="info-card">
           <h3>Next Step</h3>
-          <p>Paste your full Sims 4 cheat guide into this page whenever you are ready.</p>
+          <p>Paste your full cheat guide into this page whenever you are ready.</p>
         </div>
       </div>
     </section>
   </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
