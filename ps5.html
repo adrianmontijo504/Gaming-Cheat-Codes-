@@ -27,6 +27,56 @@
     <span class="ps-orb orb-3"></span>
   </div>
 
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <button
+        id="menuToggle"
+        class="menu-btn"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="sideMenu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <a class="brand" href="index.html">
+        <span class="brand__title">Game Cheat Lookup</span>
+        <span class="brand__subtitle">Systems and Games</span>
+      </a>
+    </div>
+  </header>
+
+  <aside id="sideMenu" class="side-menu" aria-hidden="true">
+    <div class="side-menu__header">
+      <h2>Browse</h2>
+      <button id="closeMenu" class="close-btn" type="button" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="side-menu__content">
+      <label class="label" for="menuSearch">Search systems or games</label>
+      <input id="menuSearch" type="search" placeholder="Search..." />
+
+      <div class="menu-toolbar">
+        <button id="showAllSystemsBtn" class="menu-chip" type="button">All Systems</button>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section__title">Systems</div>
+        <div id="menuSystemList" class="menu-system-list"></div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section__title">Games</div>
+        <div id="menuGameList" class="menu-game-list"></div>
+      </div>
+    </div>
+  </aside>
+
+  <div id="menuOverlay" class="menu-overlay"></div>
+
   <header class="site-header site-header--premium">
     <div class="container">
       <div class="ps5-hero-panel">
@@ -35,8 +85,7 @@
           <div class="eyebrow">Premium System Hub</div>
           <h1>PlayStation 5</h1>
           <p class="hero-copy">
-            Browse your PlayStation 5 cheat guides in a cleaner premium layout.
-            Add more PS5 games later without rebuilding the page.
+            Pick a PlayStation 5 game to open its cheat guide page.
           </p>
 
           <div class="premium-pills">
@@ -50,13 +99,13 @@
           <article class="feature-card">
             <span class="feature-card__label">Library</span>
             <h3>System Game Hub</h3>
-            <p>All PlayStation 5 cheat guides live here before opening each game page.</p>
+            <p>All connected PlayStation 5 game guides show here automatically.</p>
           </article>
 
           <article class="feature-card">
             <span class="feature-card__label">Ready to Grow</span>
             <h3>Add More Games Later</h3>
-            <p>Just update your data file and every new PS5 game will appear here automatically.</p>
+            <p>Update only the data file and new PS5 games will appear in the page and the menu.</p>
           </article>
         </div>
       </div>
