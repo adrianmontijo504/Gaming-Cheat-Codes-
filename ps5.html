@@ -21,25 +21,58 @@
     <span class="ps-symbol" data-size="xl">△</span>
   </div>
 
-  <header class="site-header">
+  <div class="ps-ambient" aria-hidden="true">
+    <span class="ps-orb orb-1"></span>
+    <span class="ps-orb orb-2"></span>
+    <span class="ps-orb orb-3"></span>
+  </div>
+
+  <header class="site-header site-header--premium">
     <div class="container">
-      <a class="back-link" href="index.html">← Back to Home</a>
-      <div class="eyebrow">System Page</div>
-      <h1>PlayStation 5</h1>
-      <p class="hero-copy">
-        Pick a PlayStation 5 game to open its cheat guide page.
-      </p>
+      <div class="ps5-hero-panel">
+        <div class="ps5-hero-copy">
+          <a class="back-link" href="index.html">← Back to Home</a>
+          <div class="eyebrow">Premium System Hub</div>
+          <h1>PlayStation 5</h1>
+          <p class="hero-copy">
+            Browse your PlayStation 5 cheat guides in a cleaner premium layout.
+            Add more PS5 games later without rebuilding the page.
+          </p>
+
+          <div class="premium-pills">
+            <span class="premium-pill">Premium layout</span>
+            <span class="premium-pill">Expandable</span>
+            <span class="premium-pill">Fast access</span>
+          </div>
+        </div>
+
+        <div class="ps5-feature-stack">
+          <article class="feature-card">
+            <span class="feature-card__label">Library</span>
+            <h3>System Game Hub</h3>
+            <p>All PlayStation 5 cheat guides live here before opening each game page.</p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__label">Ready to Grow</span>
+            <h3>Add More Games Later</h3>
+            <p>Just update your data file and every new PS5 game will appear here automatically.</p>
+          </article>
+        </div>
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="panel">
+    <section class="panel premium-panel premium-panel--games">
       <div class="section-head">
         <div>
           <h2>Games</h2>
           <p id="systemSummary">Loading...</p>
         </div>
       </div>
+
+      <div class="premium-divider"></div>
 
       <div id="gameGrid" class="card-grid"></div>
     </section>
