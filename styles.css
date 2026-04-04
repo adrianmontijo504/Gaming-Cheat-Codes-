@@ -1,11 +1,18 @@
 :root {
-  --bg: #0b1020;
-  --panel: rgba(16, 24, 48, 0.88);
-  --text: #eef2ff;
-  --muted: #a9b4d0;
-  --line: rgba(171, 188, 255, 0.18);
-  --shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
-  --radius: 18px;
+  --bg: #071126;
+  --panel: rgba(14, 24, 52, 0.82);
+  --panel-strong: rgba(10, 19, 44, 0.95);
+  --text: #eef4ff;
+  --muted: #a9b8d8;
+  --line: rgba(162, 190, 255, 0.16);
+  --line-strong: rgba(186, 211, 255, 0.28);
+  --blue: #6ab4ff;
+  --blue-2: #3b82f6;
+  --blue-glow: rgba(88, 168, 255, 0.38);
+  --white-glow: rgba(255, 255, 255, 0.2);
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.34);
+  --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.22);
+  --radius: 22px;
   --max: 1280px;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -20,9 +27,9 @@ body {
   padding: 0;
   min-height: 100%;
   background:
-    radial-gradient(circle at top left, rgba(38, 87, 208, 0.28), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(137, 56, 255, 0.18), transparent 26%),
-    var(--bg);
+    radial-gradient(circle at top left, rgba(52, 104, 255, 0.2), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(83, 0, 255, 0.16), transparent 24%),
+    linear-gradient(180deg, #061125 0%, #07152e 52%, #071126 100%);
   color: var(--text);
 }
 
@@ -40,17 +47,19 @@ a {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 26px 26px;
-  mask-image: radial-gradient(circle at center, black 55%, transparent 100%);
+  mask-image: radial-gradient(circle at center, black 56%, transparent 100%);
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.32;
   z-index: 0;
 }
 
 .site-header,
-.container {
+.container,
+.ps-bg-icons,
+.ps-ambient {
   position: relative;
   z-index: 2;
 }
@@ -63,55 +72,61 @@ a {
 }
 
 .site-header {
-  padding: 42px 0 18px;
+  padding: 40px 0 18px;
+}
+
+.site-header--premium {
+  padding-top: 34px;
 }
 
 .eyebrow {
   display: inline-block;
   margin-bottom: 12px;
-  padding: 8px 12px;
+  padding: 9px 14px;
   border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--muted);
-  font-size: 0.84rem;
-  letter-spacing: 0.04em;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.05);
+  color: #d9e5ff;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 h1 {
   margin: 0 0 10px;
-  font-size: clamp(2.2rem, 4vw, 4rem);
-  line-height: 1.03;
+  font-size: clamp(2.35rem, 4vw, 4.35rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
 }
 
 .hero-copy {
-  max-width: 780px;
+  max-width: 760px;
   color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 1.06rem;
+  line-height: 1.75;
   margin: 0;
 }
 
 .back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 18px;
-  color: #dfe7ff;
+  color: #f2f6ff;
   font-weight: 700;
+  opacity: 0.95;
 }
 
 .panel {
   border: 1px solid var(--line);
   background: var(--panel);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-radius: var(--radius);
   padding: 22px;
   margin-bottom: 22px;
-}
-
-.hero-panel {
-  margin-top: 8px;
 }
 
 .section-head {
@@ -124,6 +139,8 @@ h1 {
 
 .section-head h2 {
   margin: 0 0 6px;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
 }
 
 .section-head p {
@@ -140,11 +157,12 @@ h1 {
 .stat-card,
 .info-card,
 .system-card,
-.game-card {
+.game-card,
+.feature-card {
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 18px;
-  box-shadow: var(--shadow);
+  background: rgba(255, 255, 255, 0.045);
+  border-radius: 20px;
+  box-shadow: var(--shadow-soft);
 }
 
 .stat-card {
@@ -167,7 +185,7 @@ h1 {
 .simple-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 .system-card,
@@ -180,7 +198,7 @@ h1 {
 .game-card__title,
 .info-card h3 {
   margin: 0 0 10px;
-  font-size: 1.08rem;
+  font-size: 1.1rem;
   line-height: 1.35;
 }
 
@@ -189,24 +207,12 @@ h1 {
 .info-card p {
   margin: 0 0 18px;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .system-card__footer,
 .game-card__footer {
   margin-top: auto;
-}
-
-.open-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.07);
-  color: #ffffff;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-weight: 700;
 }
 
 .tag-row {
@@ -220,11 +226,31 @@ h1 {
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   background: rgba(255, 255, 255, 0.05);
-  padding: 7px 10px;
-  font-size: 0.83rem;
-  color: var(--muted);
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: #dbe7ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.open-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  border: 1px solid rgba(141, 186, 255, 0.3);
+  background:
+    linear-gradient(180deg, rgba(104, 159, 255, 0.22), rgba(48, 95, 186, 0.16)),
+    rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  box-shadow:
+    0 12px 30px rgba(35, 84, 190, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .empty-state {
@@ -235,7 +261,199 @@ h1 {
   color: var(--muted);
 }
 
-/* PS5 floating random blue glowing symbols */
+/* premium ps5 page */
+
+.ps5-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(98, 168, 255, 0.16), transparent 20%),
+    radial-gradient(circle at 82% 18%, rgba(98, 168, 255, 0.12), transparent 22%),
+    radial-gradient(circle at 76% 82%, rgba(68, 86, 255, 0.16), transparent 24%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ps5-page .site-header--premium .container {
+  position: relative;
+}
+
+.ps5-hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.ps5-hero-copy {
+  padding: 26px 28px;
+  border: 1px solid rgba(154, 198, 255, 0.18);
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)),
+    linear-gradient(180deg, rgba(9, 23, 55, 0.82), rgba(8, 18, 42, 0.9));
+  box-shadow:
+    var(--shadow),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.ps5-hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background:
+    radial-gradient(circle at top right, rgba(122, 194, 255, 0.16), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(81, 121, 255, 0.13), transparent 26%);
+  pointer-events: none;
+}
+
+.ps5-feature-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.feature-card {
+  padding: 20px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)),
+    rgba(8, 18, 42, 0.86);
+  border: 1px solid rgba(154, 198, 255, 0.16);
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.feature-card__label {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 0.77rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b6ccff;
+}
+
+.feature-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.14rem;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.premium-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.premium-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(154, 198, 255, 0.2);
+  background: rgba(255,255,255,0.05);
+  color: #e4eeff;
+  font-size: 0.88rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.premium-panel {
+  padding: 26px;
+  background:
+    linear-gradient(180deg, rgba(13, 28, 62, 0.9), rgba(8, 18, 42, 0.92)),
+    rgba(255,255,255,0.03);
+  border: 1px solid rgba(154, 198, 255, 0.18);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.premium-panel--games {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-panel--games::before {
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -90px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(89, 152, 255, 0.16), transparent 65%);
+  pointer-events: none;
+}
+
+.premium-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(164, 197, 255, 0.34), transparent);
+  margin: 10px 0 18px;
+}
+
+.ps5-page .game-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.028)),
+    linear-gradient(180deg, rgba(13, 27, 61, 0.96), rgba(10, 18, 42, 0.98));
+  border: 1px solid rgba(154, 198, 255, 0.18);
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.ps5-page .game-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.08), transparent 30%, transparent 70%, rgba(255,255,255,0.03)),
+    radial-gradient(circle at top right, rgba(94, 164, 255, 0.14), transparent 32%);
+  pointer-events: none;
+}
+
+.ps5-page .game-card::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.24), transparent);
+  pointer-events: none;
+}
+
+.ps5-page .game-card__title {
+  font-size: 1.24rem;
+}
+
+.ps5-page .tag {
+  border-color: rgba(166, 203, 255, 0.22);
+  background: rgba(255,255,255,0.06);
+  color: #e5efff;
+}
+
+.ps5-page .open-link {
+  min-width: 140px;
+  background:
+    linear-gradient(180deg, rgba(116, 173, 255, 0.28), rgba(59, 111, 209, 0.16)),
+    rgba(255,255,255,0.05);
+  border-color: rgba(159, 201, 255, 0.3);
+  box-shadow:
+    0 14px 30px rgba(37, 82, 185, 0.26),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+/* ps5 floating blue glowing symbols */
 
 .ps5-page .ps-bg-icons {
   position: fixed;
@@ -289,6 +507,50 @@ h1 {
   z-index: -1;
 }
 
+.ps-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ps-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(60px);
+  opacity: 0.35;
+}
+
+.orb-1 {
+  top: 8%;
+  left: -6%;
+  width: 220px;
+  height: 220px;
+  background: rgba(77, 150, 255, 0.36);
+}
+
+.orb-2 {
+  top: 52%;
+  right: -5%;
+  width: 260px;
+  height: 260px;
+  background: rgba(63, 86, 255, 0.22);
+}
+
+.orb-3 {
+  bottom: -3%;
+  left: 28%;
+  width: 240px;
+  height: 240px;
+  background: rgba(73, 121, 255, 0.18);
+}
+
+@media (max-width: 980px) {
+  .ps5-hero-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
   .container {
     padding-left: 14px;
@@ -303,5 +565,13 @@ h1 {
   .card-grid,
   .simple-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ps5-hero-copy {
+    padding: 20px;
+  }
+
+  .premium-panel {
+    padding: 18px;
   }
 }
