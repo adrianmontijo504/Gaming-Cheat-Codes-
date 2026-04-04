@@ -33,5 +33,8 @@ window.GAMES_BY_SYSTEM = {
       href: "sims4-ps5.html",
       status: "Live"
     }
-  ]
+  ],
+  "Xbox Series X|S": [],
+  "PC": [],
+  "Nintendo Switch": []
 };
