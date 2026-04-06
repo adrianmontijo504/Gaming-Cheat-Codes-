@@ -7,7 +7,7 @@
   <meta name="description" content="The Sims 4 PS5 cheat guide page." />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="sims4-cheats-page">
   <div class="bg-grid"></div>
 
   <header class="topbar">
@@ -64,43 +64,36 @@
   <header class="site-header">
     <div class="container">
       <a class="back-link" href="ps5.html">← Back to PlayStation 5</a>
-      <div class="eyebrow">Game Page</div>
+      <div class="eyebrow">Cheat Guide</div>
       <h1>The Sims 4</h1>
       <p class="hero-copy">
-        This is the PlayStation 5 Sims 4 page connected through the shared hamburger menu.
+        PS5 cheat codes organized into dropdown categories.
       </p>
     </div>
   </header>
 
   <main class="container">
-    <section class="panel">
+    <section class="panel cheats-panel">
       <div class="section-head">
         <div>
-          <h2>Current Setup</h2>
-          <p>This page is connected from Home → PlayStation 5 → The Sims 4.</p>
+          <h2>Cheat Categories</h2>
+          <p id="cheatSummary">Loading cheats...</p>
         </div>
       </div>
 
-      <div class="simple-grid">
-        <div class="info-card">
-          <h3>System</h3>
-          <p>PlayStation 5</p>
-        </div>
-
-        <div class="info-card">
-          <h3>Game</h3>
-          <p>The Sims 4</p>
-        </div>
-
-        <div class="info-card">
-          <h3>Next Step</h3>
-          <p>Paste your full cheat guide into this page whenever you are ready.</p>
-        </div>
+      <div class="cheat-start-box">
+        <h3>Activate Cheats</h3>
+        <p>Press <strong>L1 + L2 + R1 + R2</strong> to open the cheat console.</p>
+        <p>Type <code>testingcheats on</code> for cheats that require testing cheats.</p>
       </div>
+
+      <div id="cheatCategories" class="cheat-categories"></div>
     </section>
   </main>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="cheats-data.js"></script>
+  <script src="sims4-app.js"></script>
 </body>
 </html>
