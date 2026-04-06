@@ -95,7 +95,7 @@ a {
   border-radius: 22px;
   box-shadow:
     0 6px 14px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    inset 0 1px 0 rgba(255, 255, 255, 0.015);
 }
 
 .menu-btn {
@@ -836,6 +836,181 @@ h1 {
   background: rgba(73, 121, 255, 0.12);
 }
 
+/* Sims 4 cheats page */
+
+.sims4-cheats-page .site-header {
+  padding-top: 24px;
+}
+
+.cheats-panel {
+  overflow: hidden;
+}
+
+.cheat-start-box {
+  border: 1px solid rgba(186, 211, 255, 0.08);
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.cheat-start-box h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.cheat-start-box p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.cheat-start-box p:last-child {
+  margin-bottom: 0;
+}
+
+.cheat-categories {
+  display: grid;
+  gap: 14px;
+}
+
+.cheat-category {
+  border: 1px solid rgba(186, 211, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.008);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.cheat-category[open] {
+  background: rgba(255, 255, 255, 0.012);
+}
+
+.cheat-category__summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px;
+  cursor: pointer;
+}
+
+.cheat-category__summary::-webkit-details-marker {
+  display: none;
+}
+
+.cheat-category__title {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+.cheat-category__count {
+  color: var(--muted);
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.cheat-category__body {
+  padding: 0 18px 18px;
+}
+
+.cheat-list {
+  display: grid;
+  gap: 14px;
+}
+
+.cheat-item {
+  border: 1px solid rgba(186, 211, 255, 0.08);
+  background: rgba(255, 255, 255, 0.012);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.cheat-item__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.cheat-item__title {
+  margin: 0 0 8px;
+  font-size: 1.04rem;
+  line-height: 1.35;
+}
+
+.cheat-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cheat-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(186, 211, 255, 0.08);
+  background: rgba(255, 255, 255, 0.014);
+  color: #dce7ff;
+  font-size: 0.8rem;
+}
+
+.cheat-badge--warn {
+  border-color: rgba(255, 214, 102, 0.16);
+  color: #ffe2a0;
+}
+
+.cheat-badge--good {
+  border-color: rgba(129, 231, 164, 0.16);
+  color: #b8f0c8;
+}
+
+.cheat-copy-btn {
+  border: 1px solid rgba(141, 186, 255, 0.18);
+  background:
+    linear-gradient(180deg, rgba(104, 159, 255, 0.1), rgba(48, 95, 186, 0.04)),
+    rgba(255, 255, 255, 0.015);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(35, 84, 190, 0.08);
+}
+
+.cheat-item__code {
+  margin: 0 0 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(186, 211, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+  color: #eef4ff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+
+.cheat-item__effect,
+.cheat-item__notes {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.cheat-item__notes {
+  margin-top: 10px;
+  font-size: 0.94rem;
+}
+
 @media (max-width: 980px) {
   .ps5-hero-panel {
     grid-template-columns: 1fr;
@@ -876,5 +1051,15 @@ h1 {
 
   .ps5-page .ps-symbol {
     opacity: 0.58;
+  }
+
+  .cheat-category__summary,
+  .cheat-item__top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cheat-copy-btn {
+    width: 100%;
   }
 }
